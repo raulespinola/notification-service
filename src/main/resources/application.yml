@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+notification-types:
+    - name: News
+      limit: 1
+      timeUnit: day
+    - name: Status
+      limit: 2
+      timeUnit: min
+    - name: Marketing
+      limit: 3
+      timeUnit: hr
