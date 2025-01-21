@@ -26,7 +26,7 @@ CREATE TABLE NotificationRateLimit (
 CREATE TABLE NotificationEvent (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     notification_type_id INT,
-    event_time TIMESTAMP NOT NULL,
+    sent_at TIMESTAMP NOT NULL,
     description VARCHAR(255) NOT NULL
     FOREIGN KEY (notification_type_id) REFERENCES NotificationType(id)
 );

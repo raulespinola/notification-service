@@ -1,14 +1,14 @@
 package com.modak.notification.application.usecase.solution;
 
 import com.modak.notification.infraestructure.gateway.Gateway;
-import com.modak.notification.application.usecase.notification.NotificationServiceImpl;
+import com.modak.notification.application.usecase.NotificationUseCase;
 
 
 class Solution {
 
     public static void main(String[] args) {
 
-        NotificationServiceImpl service = new NotificationServiceImpl(new Gateway());
+        NotificationUseCase service = new NotificationUseCase(new Gateway());
 
         service.send("news", "user", "news 1");
 
