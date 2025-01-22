@@ -1,7 +1,11 @@
-package com.modak.notification.infraestructure.notification;
+package com.modak.notification.infraestructure.notificationType
 
-import com.modak.notification.entities.NotificationType;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.modak.notification.infraestructure.notificationType.entities.NotificationType
+import org.springframework.data.r2dbc.repository.R2dbcRepository
+import org.springframework.stereotype.Repository
+import reactor.core.publisher.Mono
 
-public interface NotificationRepository extends JpaRepository<NotificationType, Long> {
+@Repository
+interface NotificationTypeRepository: R2dbcRepository<NotificationType, Long> {
+    fun findByName(name:String): Mono<NotificationType>
 }

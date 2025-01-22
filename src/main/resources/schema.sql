@@ -1,33 +1,32 @@
-CREATE TABLE NotificationType (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE PeriodTime (
+CREATE TABLE notification_type (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    days INT,
-    hours INT,
-    minutes INT,
-    seconds INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE NotificationRateLimit (
+CREATE TABLE period_time (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    time_in_minutes INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE notification_rate_limit (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     notification_type_id INT,
-    limit INT,
+    limit_to_send INT,
     period_time_id INT,
-    FOREIGN KEY (notification_type_id) REFERENCES NotificationType(id)
-    FOREIGN KEY (period_time_id_id) REFERENCES PeriodTime(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (notification_type_id) REFERENCES notification_type(id),
+    FOREIGN KEY (period_time_id) REFERENCES period_time(id)
 );
 
-CREATE TABLE NotificationEvent (
+CREATE TABLE notification_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     notification_type_id INT,
     sent_at TIMESTAMP NOT NULL,
-    description VARCHAR(255) NOT NULL
-    FOREIGN KEY (notification_type_id) REFERENCES NotificationType(id)
+    FOREIGN KEY (notification_type_id) REFERENCES notification_type(id)
 );
 

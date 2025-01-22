@@ -1,17 +1,16 @@
-package com.modak.notification.application.usecase.solution;
+package com.modak.notification.infraestructure.batch
 
-import com.modak.notification.infraestructure.gateway.Gateway;
-import com.modak.notification.application.usecase.NotificationUseCase;
+import com.modak.notification.application.usecase.SendNotificationUseCase
+import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
+
+@Component
+class SolutionBatchProcess (private var sendNotificationUseCase: SendNotificationUseCase) {
+    fun apply(): Mono<Void> {
 
 
-class Solution {
-
-    public static void main(String[] args) {
-
-        NotificationUseCase service = new NotificationUseCase(new Gateway());
-
-        service.send("news", "user", "news 1");
-
+        sendNotificationUseCase.apply("news", "user", "news 1");
+/*
         service.send("news", "user", "news 2");
 
         service.send("news", "user", "news 3");
@@ -20,8 +19,9 @@ class Solution {
 
         service.send("update", "user", "update 1");
 
+ */
+return Mono.empty()
+
     }
 
 }
-
-

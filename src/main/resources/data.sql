@@ -1,20 +1,18 @@
-INSERT INTO NoticationsType (id, name, description) VALUES
-(1,'News', "News from the organization"),
-(2,'Status', "Status From Proyects");
+INSERT INTO  notification_type  (id, name, description, created_at)
+VALUES
+(1, 'News', 'News from the organization', CURRENT_TIMESTAMP),
+(2, 'Marketing', 'News from the organization', CURRENT_TIMESTAMP),
+(3, 'Status', 'Status from projects', CURRENT_TIMESTAMP);
 
+INSERT INTO period_time (id, name, description, time_in_minutes, created_at) VALUES
+(1,'Daily','Every Day',1440, CURRENT_TIMESTAMP),
+(2,'Hourly','Every Hour',60, CURRENT_TIMESTAMP),
+(3,'Per-Minute','Per Minute',1, CURRENT_TIMESTAMP),
+(4,'Every-30-min','Every 30 Minutes',30, CURRENT_TIMESTAMP),
+(5,'Weekly','Every Week',10080, CURRENT_TIMESTAMP);
 
-INSERT INTO PeriodTime (id, name, description, days, hours, minutes, seconds) VALUES
-(1,'Daily','Daily Notification',1,0,0,0),
-(2,'Hourly','Hourly Notification',0,1,0,0),
-(3,'Per-Minute','Notification Per Minute',0,0,1,0);
+INSERT INTO notification_rate_limit (id, notification_type_id, limit_to_send, period_time_id, created_at) VALUES
+(1,1,1,1, CURRENT_TIMESTAMP), --News: not more than 1 per day for each recipient
+(2,2,3,2, CURRENT_TIMESTAMP), --Marketing: not more than 3 per hour for each recipient
+(3,3,2,3, CURRENT_TIMESTAMP); --Status: not more than 2 per minute for each recipient
 
-INSERT INTO NoticationsRateLimit (id, notification_type_id, limit, period_time_id) VALUES
-(1,1,3,1),
-(2,1,2,2),
-(3,1,1,3);
-
-INSERT INTO NoticationsEvent (id, notification_type_id, sent_at) VALUES
-(1,1,'2025-01-21 01:35:00'),
-(2,1,'2025-01-21 01:35:00'),
-(3,1,'2025-01-21 01:35:00'),
-(4,1,'2025-01-21 01:35:00');

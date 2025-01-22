@@ -1,13 +1,10 @@
-package com.modak.notification;
+package com.modak.notification
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
-public class ModakNotificationServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(ModakNotificationServiceApplication.class, args);
-	}
-
-}
+class ModakNotificationServiceApplication
+     fun main(args: Array<String>) {
+         runApplication<ModakNotificationServiceApplication>(*args)
+    }
