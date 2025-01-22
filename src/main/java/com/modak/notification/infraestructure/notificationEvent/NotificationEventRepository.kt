@@ -8,5 +8,5 @@ import reactor.core.publisher.Flux
 
 @Repository
 interface NotificationEventRepository: R2dbcRepository<NotificationEvent, Long> {
-    fun findByNotificationTypeId(notificationTypeId: Long): Flux<NotificationEvent>
+    fun findByNotificationTypeIdAndUsersId(notificationTypeId: Long, usersId:Long): Flux<NotificationEvent>
 }

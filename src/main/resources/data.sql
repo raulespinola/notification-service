@@ -4,6 +4,10 @@ VALUES
 (2, 'Marketing', 'News from the organization', CURRENT_TIMESTAMP),
 (3, 'Status', 'Status from projects', CURRENT_TIMESTAMP);
 
+INSERT INTO users(id, name, created_at) VALUES
+(1, 'Raul', CURRENT_TIMESTAMP),
+(2, 'Renzo', CURRENT_TIMESTAMP);
+
 INSERT INTO period_time (id, name, description, time_in_minutes, created_at) VALUES
 (1,'Daily','Every Day',1440, CURRENT_TIMESTAMP),
 (2,'Hourly','Every Hour',60, CURRENT_TIMESTAMP),

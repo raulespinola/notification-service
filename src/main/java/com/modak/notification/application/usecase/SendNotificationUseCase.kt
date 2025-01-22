@@ -18,16 +18,15 @@ class SendNotificationUseCase(
      * @param type, userId, message
      * @return void
      */
-    fun apply(type: String, userId: String, message: String): Mono<Boolean> {
-        return allowSendNotificationUseCase.apply(type)
+    fun apply(type: String, userId: Long, message: String): Mono<Boolean> {
+        return allowSendNotificationUseCase.apply(type, userId)
             .flatMap {
                 if (it) {
                     gatewayAdapter.send(userId, message)
-                        .flatMap {
-                            log.info("Notification Send")
-                            storeNotificationEventUseCase.apply(type).subscribe()
-                            Mono.just(true)
-                        }
+                        .doOnSuccess {
+                            log.info("Notification Send to UserId: {}, Type: {}", userId, type)
+                            storeNotificationEventUseCase.apply(type, userId).subscribe()
+                        }.then(Mono.just(true))
                 } else {
                     log.info("Notification cannot send, the limit to send was reach")
                     Mono.just(false)
@@ -35,7 +34,7 @@ class SendNotificationUseCase(
             }
     }
 
-    companion object{
+    companion object {
         private val log: Logger = LoggerFactory.getLogger(SendNotificationUseCase::class.java)
     }
 

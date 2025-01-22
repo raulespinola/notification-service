@@ -3,13 +3,9 @@ package com.modak.notification.controller
 import com.modak.notification.application.usecase.GetNotificationEventsUseCase
 import com.modak.notification.application.usecase.GetNotificationRateLimitUseCase
 import com.modak.notification.application.usecase.SendNotificationUseCase
-import com.modak.notification.infraestructure.notificationEvent.entities.NotificationEvent
-import com.modak.notification.infraestructure.notificationRateLimit.entities.NotificationRateLimit
-import com.modak.notification.models.NotificationEventModel
 import com.modak.notification.models.NotificationRateLimitModel
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 
@@ -22,13 +18,13 @@ class NotificationController(
     ) {
 
     @PostMapping("/send")
-    fun sendNotification(@RequestParam type: String, @RequestParam userId: String, @RequestParam message: String): Mono<ResponseEntity<String>> {
+    fun sendNotification(@RequestParam type: String, @RequestParam userId: Long, @RequestParam message: String): Mono<ResponseEntity<Unit>> {
         return sendNotificationUseCase.apply(type, userId, message)
             .map {
                 if (it) {
-                    ResponseEntity.ok().body("")
+                    ResponseEntity.ok().body(Unit)
                 } else {
-                    ResponseEntity.badRequest().body("")
+                    ResponseEntity.badRequest().body(Unit)
                 }
             }
     }
@@ -39,8 +35,4 @@ class NotificationController(
             .mapNotNull { ResponseEntity.ok(it) }
     }
 
-    @GetMapping("/events/{name}")
-    fun getNotificationEvents(@PathVariable name: String): Flux<NotificationEventModel> {
-        return getNotificationEventsUseCase.apply(name)
-    }
 }

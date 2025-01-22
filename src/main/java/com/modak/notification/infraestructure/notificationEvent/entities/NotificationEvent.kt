@@ -9,5 +9,6 @@ import java.time.LocalDateTime
 data class NotificationEvent (
     @Id val id: Long?=0,
     val notificationTypeId: Long,
+    val usersId: Long,
     val sentAt: LocalDateTime
 )

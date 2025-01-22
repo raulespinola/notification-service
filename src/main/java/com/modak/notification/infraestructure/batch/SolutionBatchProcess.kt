@@ -9,7 +9,7 @@ class SolutionBatchProcess (private var sendNotificationUseCase: SendNotificatio
     fun apply(): Mono<Void> {
 
 
-        sendNotificationUseCase.apply("news", "user", "news 1");
+        sendNotificationUseCase.apply("news", 1, "news 1");
 /*
         service.send("news", "user", "news 2");
 

@@ -16,10 +16,10 @@ class GetNotificationType(private var notificationTypeRepository: NotificationTy
      * @param name
      * @return NotificationTypeModel
      */
-    fun getByName(name:String): Mono<NotificationTypeModel> {
+    fun getByName(name: String): Mono<NotificationTypeModel> {
         return notificationTypeRepository.findByName(name)
             .switchIfEmpty(Mono.error(NotFoundException("Type Not Found: {}$name")))
-            .mapNotNull { it.id?.let { it1 -> NotificationTypeModel(it1, it.name,it.description) } }
+            .mapNotNull { it.id?.let { it1 -> NotificationTypeModel(it1, it.name, it.description) } }
             .doOnSuccess { log.info("Type Found: {}", it.name) }
     }
 
@@ -28,14 +28,14 @@ class GetNotificationType(private var notificationTypeRepository: NotificationTy
      * @param id
      * @return NotificationTypeModel
      */
-    fun getById(id:Long): Mono<NotificationTypeModel> {
+    fun getById(id: Long): Mono<NotificationTypeModel> {
         return notificationTypeRepository.findById(id)
             .switchIfEmpty(Mono.error(NotFoundException("Type Not Found: {}$id")))
-            .mapNotNull { it.id?.let { it1 -> NotificationTypeModel(it1, it.name,it.description) } }
+            .mapNotNull { it.id?.let { it1 -> NotificationTypeModel(it1, it.name, it.description) } }
             .doOnSuccess { log.info("Type Found: {}", it.name) }
     }
 
-    companion object{
+    companion object {
         private val log: Logger = LoggerFactory.getLogger(SendNotificationUseCase::class.java)
     }
 }

@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 
 @Component
 class NotificationMapper {
-    fun toEntity(notificationType: NotificationTypeModel): NotificationEvent {
-        return NotificationEvent(null, notificationType.id, LocalDateTime.now())
+    fun toEntity(notificationType: NotificationTypeModel, userId:Long): NotificationEvent {
+        return NotificationEvent(null, notificationType.id, userId, LocalDateTime.now())
     }
 
 }

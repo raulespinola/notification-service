@@ -9,7 +9,9 @@ import java.time.LocalDateTime
 @Service
 class AllowSendNotificationUseCase(
     private var getNotificationRateLimitUseCase: GetNotificationRateLimitUseCase,
-    private var getNotificationEventsUseCase: GetNotificationEventsUseCase) {
+    private var getNotificationEventsUseCase: GetNotificationEventsUseCase,
+    private var getUserUseCase: GetUserUseCase
+) {
 
     /**
      * Check if the rate limit to send a new notification was reach for the last minutes
@@ -17,23 +19,32 @@ class AllowSendNotificationUseCase(
      * @param type
      * @return Boolean
      */
-    fun apply(type:String): Mono<Boolean>{
-        return getNotificationRateLimitUseCase.apply(type)
-            .flatMap { rateLimit -> getNotificationEventsUseCase
-                .apply(type)
-                .filter { event ->
-                    event.sentAt.isAfter(LocalDateTime.now()
-                        .minusMinutes(rateLimit.periodTime.timeInMinutes.toLong()))
-                }
-                .count()
-                .map {
-                    log.info("Total Events: {} in the last: {}", it, rateLimit.periodTime.timeInMinutes)
-                    it<rateLimit.limitToSend
-                }
-            }
+    fun apply(type: String, userId:Long): Mono<Boolean> {
+        return getUserUseCase.apply(userId)
+            .flatMap { user-> getNotificationRateLimitUseCase.apply(type)
+                .flatMap { rateLimit ->
+                    getNotificationEventsUseCase
+                        .apply(type, userId)
+                        .filter { event ->
+                            event.sentAt.isAfter(
+                                LocalDateTime.now()
+                                    .minusMinutes(rateLimit.periodTime.timeInMinutes.toLong())
+                            )
+                        }
+                        .count()
+                        .map {
+                            log.info(
+                                "Total Events: {} for user: {} in the last: {} min, limit to Send: {}",
+                                it, user.name, rateLimit.periodTime.timeInMinutes, rateLimit.limitToSend
+                            )
+                            it < rateLimit.limitToSend
+                        }
+                }}
+
+
     }
 
-    companion object{
+    companion object {
         private val log: Logger = LoggerFactory.getLogger(SendNotificationUseCase::class.java)
     }
 

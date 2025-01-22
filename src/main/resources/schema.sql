@@ -1,3 +1,10 @@
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE notification_type (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -23,10 +30,14 @@ CREATE TABLE notification_rate_limit (
     FOREIGN KEY (period_time_id) REFERENCES period_time(id)
 );
 
+
 CREATE TABLE notification_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     notification_type_id INT,
+    users_id INT,
     sent_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (notification_type_id) REFERENCES notification_type(id)
+    FOREIGN KEY (notification_type_id) REFERENCES notification_type(id),
+    FOREIGN KEY (users_id) REFERENCES users(id)
 );
+
 

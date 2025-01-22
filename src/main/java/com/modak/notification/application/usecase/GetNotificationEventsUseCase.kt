@@ -10,7 +10,8 @@ import reactor.core.publisher.Flux
 @Service
 class GetNotificationEventsUseCase(
     private var notificationEventRepository: NotificationEventRepository,
-    private var getNotificationType: GetNotificationType) {
+    private var getNotificationType: GetNotificationType
+) {
 
 
     /**
@@ -18,15 +19,15 @@ class GetNotificationEventsUseCase(
      * @param notificationType
      * @return Flux from NotificationEventModel
      */
-    fun apply(notificationType:String): Flux<NotificationEventModel> {
+    fun apply(notificationType: String, usersId: Long): Flux<NotificationEventModel> {
         return getNotificationType.getByName(notificationType)
-            .flatMapMany{ notificationType ->
-                notificationEventRepository.findByNotificationTypeId(notificationType.id)
+            .flatMapMany { notificationType ->
+                notificationEventRepository.findByNotificationTypeIdAndUsersId(notificationType.id, usersId )
                     .mapNotNull { it.sentAt?.let { it1 -> NotificationEventModel(notificationType, it1) } }
             }
     }
 
-    companion object{
+    companion object {
         private val log: Logger = LoggerFactory.getLogger(SendNotificationUseCase::class.java)
     }
 }
