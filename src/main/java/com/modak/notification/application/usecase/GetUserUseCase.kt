@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 class GetUserUseCase(private var userRepository: UserRepository) {
     fun apply(userId:Long): Mono<UserModel> {
         return userRepository.findById(userId)
-            .switchIfEmpty(Mono.error(NotFoundException("User Not Found: {}$userId")))
+            .switchIfEmpty(Mono.error(NotFoundException("User Not Found: $userId")))
             .mapNotNull { it.id?.let { it1 -> UserModel(it1, it.name) } }
     }
 }

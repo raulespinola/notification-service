@@ -23,7 +23,7 @@ class GetNotificationEventsUseCase(
         return getNotificationType.getByName(notificationType)
             .flatMapMany { notificationType ->
                 notificationEventRepository.findByNotificationTypeIdAndUsersId(notificationType.id, usersId )
-                    .mapNotNull { it.sentAt?.let { it1 -> NotificationEventModel(notificationType, it1) } }
+                    .mapNotNull { NotificationEventModel(notificationType, it.sentAt) }
             }
     }
 

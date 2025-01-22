@@ -27,7 +27,7 @@ class GetNotificationRateLimitUseCase(
             .flatMap { notificationType ->
                 log.info("Notification Type Found: {}", notificationType.name)
                 notificationRateLimitRepository.findByNotificationTypeId(notificationType.id)
-                    .switchIfEmpty(Mono.error(NotFoundException("Rate Limit Not Found:{}${notificationType.id}")))
+                    .switchIfEmpty(Mono.error(NotFoundException("Rate Limit Not Found:${notificationType.id}")))
                     .flatMap { rateLimit ->
                         getPeriodTimeUseCase.apply(rateLimit.periodTimeId)
                             .mapNotNull {

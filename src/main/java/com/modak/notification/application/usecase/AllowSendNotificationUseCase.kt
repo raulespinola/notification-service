@@ -34,8 +34,8 @@ class AllowSendNotificationUseCase(
                         .count()
                         .map {
                             log.info(
-                                "Total Events: {} for user: {} in the last: {} min, limit to Send: {}",
-                                it, user.name, rateLimit.periodTime.timeInMinutes, rateLimit.limitToSend
+                                "Total Events: {} for user: {} in the last: {} min, limit to Send: {} for type: {}",
+                                it, user.name, rateLimit.periodTime.timeInMinutes, rateLimit.limitToSend, rateLimit.type.name
                             )
                             it < rateLimit.limitToSend
                         }
